@@ -565,3 +565,92 @@ if (window.swup) {
 	document.addEventListener("swup:enable", setup)
 }
 </script>
+
+<style is:global>
+.mermaid-diagram {
+	display: flex;
+	justify-content: center;
+	overflow-x: auto;
+	margin: 1.5rem 0;
+	padding: 1rem;
+	background: var(--codeblock-bg);
+	border-radius: 0.75rem;
+	font-family: 'JetBrains Mono Variable', ui-monospace, monospace;
+	font-size: 0.75rem;
+	white-space: pre-wrap;
+}
+.mermaid-diagram svg {
+	max-width: 100%;
+	height: auto;
+}
+</style>
+
+<script>
+// mermaid itself is ~600KB; only fetch it on pages that actually have a diagram.
+let mermaidApi: typeof import("mermaid").default | null = null
+let lastIsDark = false
+
+function isDarkMode() {
+	return document.documentElement.classList.contains("dark")
+}
+
+async function renderMermaidDiagrams() {
+	const containers = Array.from(
+		document.querySelectorAll<HTMLElement>("pre.mermaid-diagram[data-mermaid]"),
+	)
+	if (containers.length === 0) return
+
+	if (!mermaidApi) {
+		mermaidApi = (await import("mermaid")).default
+	}
+
+	const dark = isDarkMode()
+	lastIsDark = dark
+	mermaidApi.initialize({
+		startOnLoad: false,
+		theme: dark ? "dark" : "default",
+		securityLevel: "loose",
+		fontFamily: "inherit",
+	})
+
+	for (const container of containers) {
+		// Stash the original diagram source on first pass so re-renders
+		// (theme toggle, swup navigation) always start from clean text.
+		if (!container.dataset.source) {
+			container.dataset.source = container.textContent ?? ""
+		}
+		container.removeAttribute("data-processed")
+		container.textContent = container.dataset.source
+	}
+
+	try {
+		await mermaidApi.run({ nodes: containers })
+	} catch (err) {
+		console.error("Mermaid render failed:", err)
+	}
+}
+
+const setupMermaid = () => {
+	lastIsDark = isDarkMode()
+	renderMermaidDiagrams()
+
+	window.swup.hooks.on("page:view", () => {
+		renderMermaidDiagrams()
+	})
+}
+
+if (window.swup) {
+	setupMermaid()
+} else {
+	document.addEventListener("swup:enable", setupMermaid)
+}
+
+// Only re-render on an actual light/dark toggle, not every class mutation
+// (swup adds/removes its own transition classes on <html> constantly).
+new MutationObserver(() => {
+	const dark = isDarkMode()
+	if (dark !== lastIsDark) {
+		renderMermaidDiagrams()
+	}
+}).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] })
+</script>
