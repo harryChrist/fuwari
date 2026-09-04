@@ -3,7 +3,7 @@ title: "Testes Automatizados em Go: Do TDD aos Mocks em Produção"
 published: 2026-09-04
 description: "Guia prático de testes em Go: por que testar, o pacote testing, TDD, testando handlers HTTP, interfaces e mocks, table-driven tests, subtestes paralelos, mocks automáticos, fuzzing, benchmarks e cobertura."
 image: ""
-tags: [Go, Golang, Testing, TDD, Backend]
+tags: [Go, Testing, TDD, Backend]
 category: "Desenvolvimento"
 draft: false
 ---

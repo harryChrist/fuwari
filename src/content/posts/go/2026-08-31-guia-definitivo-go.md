@@ -3,7 +3,7 @@ title: "Guia Definitivo de Go: Do Zero à Alta Performance"
 published: 2026-08-31
 description: "Aprenda Go de forma profunda e prática: fundamentos, gerenciamento de memória (Stack/Heap), ponteiros, slices, concorrência com Goroutines e Contexts."
 image: ""
-tags: [Go, Golang, Backend, Concurrency, Architecture, Tutorial]
+tags: [Go, Backend, Concurrency, Architecture, Tutorial]
 category: "Desenvolvimento"
 draft: false
 ---

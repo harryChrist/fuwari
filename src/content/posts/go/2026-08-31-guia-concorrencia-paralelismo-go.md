@@ -3,7 +3,7 @@ title: "Concorrência e Paralelismo em Go: Goroutines, Channels e Padrões de Pr
 published: 2026-08-31
 description: "Guia aprofundado sobre concorrência em Go: scheduler M:N, race conditions, a filosofia CSP, goroutines, channels, primitivas do pacote sync, padrões avançados (worker pools, pipelines, fan-out/fan-in) e diagnóstico com pprof e trace."
 image: ""
-tags: [Go, Golang, Concurrency, Goroutines, Channels, Backend, Concorrência]
+tags: [Go, Concurrency, Goroutines, Channels, Backend]
 category: "Desenvolvimento"
 draft: false
 ---
