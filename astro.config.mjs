@@ -157,6 +157,7 @@ export default defineConfig({
 	},
 	vite: {
 		build: {
+			cssCodeSplit: false,
 			rollupOptions: {
 				onwarn(warning, warn) {
 					// temporarily suppress this warning
